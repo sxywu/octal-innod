@@ -11,8 +11,9 @@
 	<script type="text/javascript" src="js/backbone.js"></script>
 	<script type="text/javascript" src="model.js"></script>
 	<script type="text/javascript" src="view.js"></script>
+	<script type="text/javascript" src="pies.js"></script>
 	
-	
+
 	
 </head>
 
@@ -22,203 +23,17 @@
 		
 	</div>
 	
-	<div id="trial">
-		
-	</div>
-	
 	<script type="text/javascript">
-	var width = 150,
-		height = 150,
-		radius = 50,
-		radiusDiff = 20,
-		data = [
-		  [10, 30, 20, 50, 100, 40],
-		  [50, 20, 25]
-		],
-		donut = d3.layout.pie(),
-		colors = d3.scale.category20c(),
-		arc;
+	var data = [
+	  [10, 30, 20, 50, 100, 40],
+	  [50, 20, 25]
+	];
+	new PieView(data);
+	var vpf = new Officer("VP of Finance");
+	var budget1 = new Budget();
+	var budget2 = new Budget({activity: "dancing", budgeted: 50});
+	vpf.addBudget([budget1, budget2]);
 	
-	// var svg = d3.select("#pies")
-	// 		.append("svg");
-	// 	// var g = svg.selectAll("g")
-	// 	// 		.data(data)
-	// 	// 		.enter().append("g")
-	// 	// 		.attr("transform", function(d) {return "translate("+ radius * 2+ "," + radius*2 + ")"});
-	// 	
-	// 	for (i = 0; i < data.length; i += 1) {
-	// 		arc = d3.svg.arc(data)
-	// 			.innerRadius((radius + i * 20) * .8)
-	// 			.outerRadius(radius + i * 20);
-	// 		
-	// 		console.log((radius + i * 20) * .8);
-	// 		console.log(radius + i * 20);
-	// 		
-	// 		var g = svg.append("g")
-	// 			.data(data[i])
-	// 			.attr("transform", function(d) {return "translate("+ radius * 2+ "," + radius*2 + ")"});
-	// 		
-	// 		var pie = g.selectAll("path")
-	// 			.data(donut)
-	// 				.enter().append("path")
-	// 				.attr("d", arc)
-	// 				.attr("fill", function(d, index) {
-	// 					if (index + 1 == d.length) {
-	// 						return null;
-	// 					} else {
-	// 						return colors(index);
-	// 					}
-	// 			});	
-	// 		
-	// 	}
-	
-		var pies = d3.select("#pies")
-			// .attr("width", width)
-			// 		.attr("height", height)
-			.append("svg")
-				.style("position", "absolute")
-				.selectAll("g")
-					.data(data)
-					.enter().append("g")
-					.attr("transform", function(d) {return "translate("+ radius * 2+ "," + radius*2 + ")"});
-		
-		pies.each(function(row,i) {
-			var arc = d3.svg.arc(data)
-				.innerRadius((radius + i * 20) * .8)
-				.outerRadius(radius + i * 20);
-				
-			var pie = d3.select(this).selectAll("path")
-				.data(donut)
-					.enter().append("path")
-					.attr("d", arc)
-					.attr("fill", function(d, index) {
-						if (index + 1 == row.length) {
-							console.log("none");
-							return "white";
-						} else {
-							console.log(index);
-							return colors(index);
-						}
-				});
-					
-		});
-				
-				
-	// can be the actual budget, or the expected budget
-		// var innerArc = d3.svg.arc()
-		// 		.innerRadius(radius * .8)
-		// 		.outerRadius(radius);
-		// 	
-		// var outerArc = d3.svg.arc()
-		// 	.innerRadius((radius + radiusDiff) * .8)
-		// 	.outerRadius(radius + radiusDiff);
-		// 
-		// var pies = d3.select("#pies")
-		// 	.append("svg")
-		// 		.selectAll("g")
-		// 			.data(data)
-		// 			.enter().append("g")
-		// 			.attr("data", function(d, i) {return i;})
-		// 			.attr("transform", function(d, i) {return "translate("+ radius * 2+ "," + radius*2 + ")"});
-		// 	
-		// pies.selectAll("path")
-		// 	.data(function(d) {return d;})
-		// 	.enter().append("path")
-		// 	.attr("width", function(d, i) {return d;});
-		// 	
-		// // var innerPie = pies.selectAll("path")
-		// // 					.data(donut)
-		// // 						.enter().append("path")
-		// // 						.attr("d", innerArc)
-		// // 						.attr("fill", function(d, i) {return colors(i)});
-		// // var outerPie = pies.selectAll("path")
-		// // 					.data(donut)
-		// // 						.enter().append("path")
-		// // 						.attr("d", function(d) {
-		// // 							if ($("g").attr("data") == 0) {
-		// // 								return innerArc;
-		// // 							} else {
-		// // 								return outerArc;
-		// // 							}
-		// // 						})
-		// // 						.attr("fill", function(d, i) {return colors(i + 1)});
-		// 
-		// 
-		// 
-		// 
-		// 
-		// 
-		// var radius = 50,
-		// 	data = [[10, 50, 20, 30, 25], [10, 100, 20]],
-		// 	donut = d3.layout.pie(),
-		// 	arc = d3.svg.arc(),
-		// 	colors = d3.scale.category20c();
-		// 	
-		// var arc = d3.svg.arc(data)
-		// 	.innerRadius(function(d, i) {return (radius + i * 20) * .8;})
-		// 	.outerRadius(function(d, i) {return (radius + i * 20);});
-		// 	
-		// // svg --> g (grouping element) --> path (moveto, lineto, etc.)
-		// var pies = d3.select("#pies")
-		// 	.append("svg")
-		// 		.selectAll("g")
-		// 			.data(data)
-		// 			.enter().append("g")
-		// 			.attr("transform", function(d, i) {return "translate("+ (i*100 + 50)+ ", 200)"});
-		// 
-		// var pie = pies.selectAll("path")
-		// 	.data(donut)
-		// 		.enter().append("path")
-		// 		.attr("d", arc)
-		// 		// .attr("fill", function(d, i) {console.log(d); console.log(i); return "rgb(" + (255 * i * .002) + "," + (255 * i * .1) + "," + (255 * i * .05) + ")"});
-		// 		.attr("fill", function(d, i) {return colors(i)});
-	</script>
-	
-	
-	<script type="text/javascript">
-
-	// var width =1000,
-	// 	    height = 1000,
-	// 	    outerRadius = Math.min(width, height) / 6,
-	// 	    innerRadius = outerRadius * .6,
-	// 	    data = d3.range(10).map(Math.random),
-	// 	    color = d3.scale.category20(),
-	// 	    donut = d3.layout.pie(),
-	// 	    arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-	// 
-	// 	var vis = d3.select("#trial")
-	// 	  .append("svg")
-	// 		.attr("width", width)
-	// 	    .attr("height", height)
-	// 		.selectAll("g")
-	// 	    	.data([data, data, data])
-	// 				.enter().append("g")
-	// 				.attr("transform", function(d, i) {return "translate(" + (i*200 + 200) + ", 200)"});
-	// 	
-	// 	vis.selectAll("path")
-	// 		.data(donut)
-	// 		.enter().append("path")
-	// 		.attr("d", arc)
-	// 		.attr("fill", function(d, i) {return color(i);})
-	// 		.attr("css", "{border: 1px solid black}");
-
-	// var arcs = vis.selectAll("g.arc")
-	// 			    .data(donut)
-	// 			  .enter().append("g")
-	// 			    .attr("class", "arc")
-	// 			    .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
-	// 
-	// 	arcs.append("path")
-	// 	    .attr("fill", function(d, i) { return color(i); })
-	// 	    .attr("d", arc);
-
-	// arcs.append("text")
-	// 	    .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-	// 	    .attr("dy", ".35em")
-	// 	    .attr("text-anchor", "middle")
-	// 	    .attr("display", function(d) { return d.value > .15 ? null : "none"; })
-	// 	    .text(function(d, i) { return d.value.toFixed(2); });
-
 	    </script>
 	
 </body>
